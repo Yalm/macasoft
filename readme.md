@@ -9,7 +9,7 @@ remove
 1. `composer install`
 1. Rename or copy `.env.example` file to `.env`
 1. `php artisan key:generate`
-1. `php artisan jswt:secret`
+1. `php artisan jwt:secret`
 1. Set your database credentials in your `.env` file
 1. `php artisan migrate --seed`
 1. `php artisan serve` or use Laravel Valet or Laravel Homestead

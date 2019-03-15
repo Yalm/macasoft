@@ -2595,7 +2595,6 @@ __webpack_require__.r(__webpack_exports__);
     });
     this.$http.get("/api/users/".concat(this.id)).then(function (response) {
       _this.user = response.data;
-      console.log(_this.user);
     });
   },
   methods: {
@@ -32622,8 +32621,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! d:\practica\macasoft\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! d:\practica\macasoft\resources\sass\app.sass */"./resources/sass/app.sass");
+__webpack_require__(/*! D:\practica\macasoft\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\practica\macasoft\resources\sass\app.sass */"./resources/sass/app.sass");
 
 
 /***/ })

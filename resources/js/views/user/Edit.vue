@@ -81,7 +81,6 @@ export default {
         });
         this.$http.get(`/api/users/${this.id}`).then(response => {
             this.user = response.data;
-            console.log(this.user);
         });
     },
     methods: {
