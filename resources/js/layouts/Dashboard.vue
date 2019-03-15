@@ -12,9 +12,9 @@
             <md-toolbar class="md-transparent" md-elevation="0">Navegación</md-toolbar>
 
             <md-list>
-                <md-list-item to="/components/list/router">
+                <md-list-item>
                     <md-avatar>
-                        <img src="https://placeimg.com/40/40/people/6" alt="People">
+                        <img :src="user.avatar" alt="People">
                     </md-avatar>
 
                     <span class="md-list-item-text text-capitalize">{{user.name}}</span>
@@ -31,7 +31,7 @@
                     <span class="md-list-item-text">Usuarios</span>
                 </md-list-item>
 
-                <md-list-item>
+                <md-list-item to="/admin/roles">
                     <md-icon>style</md-icon>
                     <span class="md-list-item-text">Roles</span>
                 </md-list-item>
@@ -56,8 +56,18 @@ export default {
     name: 'Dashboard',
     data: () => ({
         menuVisible: false
-    }),mounted(){
-
+    }),
+    created () {
+        this.$http.interceptors.response.use( (response) => {
+            return response;
+        }, (error) => {
+            if (401 === error.response.status) {
+                this.$store.dispatch('logout').then(() => {
+                    this.$router.push('/login')
+                });
+            }
+            return Promise.reject(error.response);
+        });
     },
     methods: {
         logout () {

@@ -52,12 +52,15 @@
                 c2.078,0,4.156-0.792,5.742-2.378l2.885-2.886c3.171-3.171,3.17-8.312-0.001-11.482
                 C390.366,275.938,385.225,275.939,382.054,279.111z"/>
         </svg>
-        <h1 class="text-center pt-2">Hola.....</h1>
+        <h1 class="text-center pt-2">Hola {{ `${user.role.name} ${user.name}` }}</h1>
     </div>
 </template>
 <script>
+import { mapState } from 'vuex';
 export default {
-
+    computed: mapState({
+        user: state => state.user,
+    })
 }
 </script>
 

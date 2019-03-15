@@ -19,6 +19,7 @@ import { MdField,
     MdProgress,
     MdAvatar,
     MdTable,
+    MdDialog,
     MdEmptyState,
     MdRipple } from 'vue-material/dist/components';
 import 'vue-material/dist/vue-material.min.css';
@@ -46,3 +47,4 @@ Vue.use(MdSnackbar)
 Vue.use(MdTable)
 Vue.use(MdEmptyState)
 Vue.use(MdRipple)
+Vue.use(MdDialog)

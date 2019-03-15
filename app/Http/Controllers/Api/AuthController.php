@@ -68,9 +68,13 @@ class AuthController extends Controller
 
     protected function respondWithToken($token)
     {
+        $user = auth('api')->user();
+        $user->avatar = $user->avatar ? url("uploads/$user->avatar") : null;
+        $user->role;
+
         return response()->json([
             'access_token' => $token,
-            'user' => auth('api')->user(),
+            'user' => $user,
             'token_type' => 'bearer',
             'expires_in' => auth('api')->factory()->getTTL() * 60
         ]);

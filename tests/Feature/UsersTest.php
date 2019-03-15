@@ -21,7 +21,7 @@ class UsersTest extends TestCase
      */
     public function testRegistersValidation()
     {
-        $token = factory(User::class)->create()->generateToken();
+        $token = factory(User::class)->make()->generateToken();
         $file = UploadedFile::fake()->image('avatar.pdf');
 
         $payload = [
@@ -39,7 +39,7 @@ class UsersTest extends TestCase
     }
     public function testsRegistersSuccessfully()
     {
-        $token = factory(User::class)->create()->generateToken();
+        $token = factory(User::class)->make()->generateToken();
 
         $file = UploadedFile::fake()->image('avatar.jpg');
 
@@ -67,7 +67,7 @@ class UsersTest extends TestCase
     }
     public function testsUsersAreUpdatedCorrectly()
     {
-        $token = factory(User::class)->create()->generateToken();
+        $token = factory(User::class)->make()->generateToken();
 
         $user = factory(User::class)->create(['avatar' => UploadedFile::fake()->image('avatar.jpg')]);
 
@@ -78,7 +78,8 @@ class UsersTest extends TestCase
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'avatar' => $file,
-            'password' => 'newone'
+            'password' => 'newone',
+            'role_id' => 1
         ];
 
         $this->withHeaders(['Authorization' => "Bearer $token"])
@@ -103,7 +104,7 @@ class UsersTest extends TestCase
     }
     public function testsUsersAreDeletedCorrectly()
     {
-        $token = factory(User::class)->create()->generateToken();
+        $token = factory(User::class)->make()->generateToken();
 
         $user = factory(User::class)->create(['avatar' => UploadedFile::fake()->image('avatar.jpg')]);
 
@@ -113,5 +114,13 @@ class UsersTest extends TestCase
 
         // Assert a file does not exist...
         Storage::disk('public_folder')->assertMissing($user->avatar);
+    }
+    public function testsUsersByRole()
+    {
+        $token = factory(User::class)->make()->generateToken();
+
+        $this->withHeaders(['Authorization' => "Bearer $token"])
+            ->json('GET', '/api/usersByRoleName?role=Administrador')
+            ->assertStatus(200);
     }
 }

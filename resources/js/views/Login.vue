@@ -66,14 +66,13 @@ export default {
                             this.sending = false;
                         })
                         .catch(err => {
-                            console.log(err);
+                            this.sending = false;
                             if(err.response.status == 401) {
                                 this.unauthorized = true;
                             }else {
                                 this.messageSnackbar = 'Opps..., Algo salio mal.';
                                 this.showSnackbar = true;
                             }
-                            this.sending = false;
                         });
                 }
             });

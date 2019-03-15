@@ -31,15 +31,17 @@ export default new Vuex.Store({
         login({commit}, user) {
             return new Promise((resolve, reject) => {
                 commit('auth_request')
-                axios({url: `http://${location.hostname}:${location.port}/api/auth/login`, data: user, method: 'POST' })
+                axios.post('/api/auth/login',user)
                 .then(resp => {
                     const token = resp.data.access_token;
                     const user = resp.data.user;
                     localStorage.setItem('token', token);
                     localStorage.setItem('user', JSON.stringify(user));
+                    localStorage.setItem('expires_in', resp.data.expires_in);
                     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
                     commit('auth_success', {token,user});
                     resolve(resp);
+                    reject();
                 })
                 .catch(err => {
                     commit('auth_error');
@@ -50,10 +52,15 @@ export default new Vuex.Store({
         },
         logout({commit}){
             return new Promise((resolve, reject) => {
-                commit('logout');
-                localStorage.removeItem('token');
-                delete axios.defaults.headers.common['Authorization'];
-                resolve();
+                axios.post('/api/auth/logout').then( () => {
+                    commit('logout');
+                    localStorage.removeItem('token');
+                    delete axios.defaults.headers.common['Authorization'];
+                    resolve();
+                })
+                .catch(err => {
+                    reject(err);
+                });
             })
         }
     },

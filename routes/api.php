@@ -13,8 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-
-Route::group(['prefix' => 'auth',], function () {
+Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'Api\AuthController@login');
     Route::post('register', 'Api\AuthController@register');
     Route::post('logout', 'Api\AuthController@logout');
@@ -22,3 +21,5 @@ Route::group(['prefix' => 'auth',], function () {
 });
 
 Route::apiResource('users','Api\UserController');
+Route::apiResource('roles','Api\RoleController');
+Route::get('usersByRoleName','Api\UserController@byRole');

@@ -10,4 +10,4 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/{vue_capture?}', function () {return view('app');})->where('vue_capture', '^(?!api).*$');
+Route::get('/{vue_capture?}', function () {return view('app');})->where('vue_capture', '^(?!avatars).*$');

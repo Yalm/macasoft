@@ -24,6 +24,10 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = User::latest()->search($request->get('search'))->paginate(7);
+        $users->each(function($user){
+            $user->role;
+        });
+
         return response()->json($users,200);
     }
 
@@ -39,6 +43,7 @@ class UserController extends Controller
             'name' => 'required|string|max:191',
             'email' => 'required|string|email|max:191|unique:users',
             'password' => 'required|string|min:6|max:10',
+            'role_id' => 'required|numeric|exists:roles,id',
             'avatar' => 'required|image'
         ]);
 
@@ -67,7 +72,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->avatar = $user->avatar ? url("uploads/$user->avatar") : null;
+        return response()->json($user,201);
     }
 
     /**
@@ -81,8 +88,9 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:191',
-            'email' => 'required|string|email|max:191',
+            'email' => 'required|string|email|max:191|unique:users,email,'.$id,
             'password' => 'string|max:10',
+            'role_id' => 'required|numeric|exists:roles,id',
             'avatar' => 'image'
         ]);
 
@@ -99,6 +107,7 @@ class UserController extends Controller
 
         $user->name = $request->get('name');
         $user->email = $request->get('email');
+        $user->role_id = $request->get('role_id');
 
         if($request->get('password')) {
             $user->password = Hash::make($request->get('password'));
@@ -121,5 +130,12 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json(null, 204);
+    }
+
+    public function byRole(Request $request)
+    {
+        $users = User::byRole($request->get('role'))->paginate(10);
+
+        return response()->json($users);
     }
 }

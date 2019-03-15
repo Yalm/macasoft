@@ -26,7 +26,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token','email_verified_at'
+        'password', 'remember_token'
     ];
 
     /**
@@ -64,6 +64,15 @@ class User extends Authenticatable implements JWTSubject
             return $query->where('name','LIKE',"%$s%")
                         ->orWhere('email','LIKE',"%$s%")
                         ->orWhereHas('role', function($q) use($s)
+                        {
+                            $q->where('name', 'like',"%$s%");
+                        });
+    }
+
+    public function scopeByRole($query,$s)
+	{
+        if($s != 'false' && $s != 'null' && $s)
+            return $query->whereHas('role', function($q) use($s)
                         {
                             $q->where('name', 'like',"%$s%");
                         });
