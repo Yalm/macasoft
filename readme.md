@@ -14,3 +14,15 @@ remove
 1. `php artisan migrate --seed`
 1. `php artisan serve` or use Laravel Valet or Laravel Homestead
 1. Visit `localhost:8000` in your browser
+
+### Packages included ###
+
+* [tymondesigns/jwt-auth](https://github.com/tymondesigns/jwt-auth) 
+
+### Tricks ###
+
+To test application the database is seeding with users :
+
+* Administrator : 
+>**Email:** `renzomanuelc@gmail.com`   
+>**Password:** `password`
